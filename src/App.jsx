@@ -8,6 +8,8 @@ import Main from "./pages/Main";
 import Layout from "./components/Layout";
 
 function App() {
+  //json파일을 통해 가져온 데이터를 사용하여 movieList의 상태를 관리
+  //초기 값울 movieListData의 영화 목록 데이터로 설정
   const [movieList, setMovieList] = useState(movieListData.results);
 
   return (

@@ -14,6 +14,7 @@ function MovieDetail() {
       <p>
         평점: {(Math.round(movieDetail.vote_average * 100) / 100).toFixed(1)}
       </p>
+      {/* 장르 순회하여 새로운 배열로 반환 후 join을 통해 구분할 슬러시 표시 */}
       <p>장르: {movieDetail.genres.map((genre) => genre.name).join("/")}</p>
       <div>
         영화의 줄거리
