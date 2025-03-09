@@ -10,13 +10,22 @@ function MovieCard({ id, poster_path, title, vote_average }) {
   return (
     <>
       {/* 영화 랜더링할 때 id / 영화 포스터 클릭 시 상세페이지로 이동*/}
-      <div key={id} onClick={goToDetail}>
+      <div
+        className="bg-white rounded-lg shadow-lg overflow-hidden w-full h-70"
+        key={id}
+        onClick={goToDetail}
+      >
         <img
           src={`https://image.tmdb.org/t/p/w500${poster_path}`}
           alt={title}
+          className="w-full h-48 object-cover"
         />
-        <h3>제목: {title}</h3>
-        <p>평점: {(Math.round(vote_average * 100) / 100).toFixed(1)}</p>
+        <div className="p-4 flex-col h-full">
+          <h3 className="text-lg font-semibold mb-2 line-clamp-2">{title}</h3>
+          <p className="text-sm text-gray-500 mt-auto">
+            평점: {(Math.round(vote_average * 100) / 100).toFixed(2)}
+          </p>
+        </div>
       </div>
     </>
   );
