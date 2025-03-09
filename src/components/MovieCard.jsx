@@ -20,8 +20,11 @@ function MovieCard({ id, poster_path, title, vote_average }) {
           alt={title}
           className="w-full h-48 object-cover"
         />
-        <div className="p-4 flex-col h-full">
-          <h3 className="text-lg font-semibold mb-2 line-clamp-2">{title}</h3>
+        <div className="p-1 flex-col h-full">
+          {/*line-clamp02 : 글자가 2줄까지 보이게 제한*/}
+          <h3 className="text-[14px] font-semibold mb-2 line-clamp-2 text-black">
+            {title}
+          </h3>
           <p className="text-sm text-gray-500 mt-auto">
             평점: {(Math.round(vote_average * 100) / 100).toFixed(2)}
           </p>
