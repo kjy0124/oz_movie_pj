@@ -1,14 +1,11 @@
 import MovieCard from "../components/MovieCard";
+import movieListData from "../assets/data/movieListData.json";
+import { useState } from "react";
 
-function Main({ movieList }) {
-  console.log(movieList);
-
-  if (movieList.length === 0) {
-    return <p>영화 목록 없음</p>;
-  }
+function Main() {
+  const [movieList, setMovieList] = useState(movieListData.results);
   return (
     <>
-      <h2 className="text-">영화 목록</h2>
       <div className="grid grid-cols-4 gap-4">
         {movieList.map((movie) => (
           <MovieCard
