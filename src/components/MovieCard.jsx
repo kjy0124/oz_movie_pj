@@ -18,7 +18,7 @@ function MovieCard({ id, poster_path, title, vote_average }) {
         <img
           src={`https://image.tmdb.org/t/p/w500${poster_path}`}
           alt={title}
-          className="w-full h-48 object-cover"
+          className="w-full h-60 object-cover"
         />
         <div className="p-1 flex-col h-full text-center">
           {/*line-clamp02 : 글자가 2줄까지 보이게 제한*/}
