@@ -6,7 +6,7 @@ function MovieCard({ id, poster_path, title, vote_average }) {
 
   //navigate를 사용해 포스터 클릭 시 다른 페이지로 이동하게
   const goToDetail = () => nav("/details");
-  console.log("MovieCard props:", { poster_path, title, vote_average });
+  // console.log("MovieCard props:", { poster_path, title, vote_average, adult });
   return (
     <>
       {/* 영화 랜더링할 때 id / 영화 포스터 클릭 시 상세페이지로 이동*/}
