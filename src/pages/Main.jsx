@@ -22,6 +22,7 @@ function Main() {
           },
         });
         const data = await response.json();
+
         setMovieList(data.results);
       } catch (err) {
         console.error(err);
@@ -43,7 +44,7 @@ function Main() {
     [filterListData]
   );
 
-  console.log(filterListData);
+  // console.log(filterListData);
   return (
     <>
       {/* 평점 높은 순 슬라이드 */}
@@ -73,9 +74,11 @@ function Main() {
       </Swiper>
       <h2 className="text-2xl font-bold mt-8 mb-4">영화 목록</h2>
       <div className="grid grid-cols-4 gap-4">
+        {/* 성인 인증 불필요한 영화만 나오게 */}
         {filterListData.map((movie) => (
           <MovieCard
             key={movie.id}
+            id={movie.id}
             poster_path={movie.poster_path}
             title={movie.title}
             vote_average={movie.vote_average}
