@@ -7,20 +7,35 @@ const API_URL = `${import.meta.env.VITE_TMDB_API_URL}/movie`;
 function MovieDetail() {
   const { id } = useParams(); // URL에서 id 받아오기
   const [movieDetailData, setMovieDetailData] = useState(null);
-  console.log(movieDetailData);
+  const [cast, setCast] = useState([]); //출연자
 
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const response = await fetch(`${API_URL}/${id}?language=ko-KR`, {
+        //영화 상세 정보 가져오기
+        const movieResponse = await fetch(`${API_URL}/${id}?language=ko-KR`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
             accept: "application/json",
           },
         });
-        const data = await response.json();
-        setMovieDetailData(data);
+        const movieData = await movieResponse.json();
+        setMovieDetailData(movieData);
+
+        //출연자 정보 가져오기
+        const creditResponse = await fetch(
+          `${API_URL}/${id}/credits?language=ko-KR`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${ACCESS_TOKEN}`,
+              accept: "application/json",
+            },
+          }
+        );
+        const creditsData = await creditResponse.json();
+        setCast(creditsData.cast); //출연자 정보 설정
       } catch (err) {
         console.log(err);
       }
@@ -77,6 +92,30 @@ function MovieDetail() {
           </div>
         </div>
       )}
+      {/* 출연자 목록 */}
+      <div className="mt-6">
+        <h3 className="text-xl font-semibold mt-5 mb-2 pt-5 border-t-2 border-gray-400">
+          출연자
+        </h3>
+        <div className="flex flex-wrap gap-4">
+          {cast.slice(0, 6).map((actor) => (
+            <div key={actor.id} className="flex flex-col items-center">
+              {actor.profile_path ? (
+                <img
+                  src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
+                  alt={actor.name}
+                  className="w-24 h-24 rounded-full shadow-lg"
+                />
+              ) : (
+                <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-sm text-gray-500">
+                  이미지 없음
+                </div>
+              )}
+              <p className="mt-2 text-sm text-center">{actor.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
