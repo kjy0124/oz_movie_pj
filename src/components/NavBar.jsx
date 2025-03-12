@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useDebounce from "../hooks/useDebounce";
 
 function NavBar() {
   // 사용자가 입력한 검색어 상태
   //searchTerm은 input에 입력한 text값의 상태 변경을 가리킴
   const [searchTerm, setSearchTerm] = useState("");
-  console.log("searchTerm:", searchTerm);
+  // console.log("searchTerm:", searchTerm);
 
   //searchTerm이 마지막으로 변경된 뒤 500ms 지나야 업데이트
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -15,6 +15,8 @@ function NavBar() {
   const nav = useNavigate();
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const handleResize = () => {
@@ -34,13 +36,17 @@ function NavBar() {
 
   // 디바운스된 검색어가 변경될 때마다 자동으로 검색 실행
   useEffect(() => {
-    console.log("debouncedSearchTerm:", debouncedSearchTerm);
-    if (debouncedSearchTerm) {
-      nav(`/search?query=${debouncedSearchTerm}`);
+    //안전 처리를 위해 searchParmas를 debouncedSearchTerm에 넣어줌
+
+    //debouncedSearchTerm가 빈 문자열일 때 searchParams도 비워줌
+    if (debouncedSearchTerm === "") {
+      setSearchParams({});
     } else {
-      nav("/home");
+      //아니라면 searchParams에 쿼리로 debouncedSearchTerm값을 줌
+      setSearchParams({ query: debouncedSearchTerm });
+      nav(`/search?query=${debouncedSearchTerm}`);
     }
-  }, [debouncedSearchTerm, nav]);
+  }, [debouncedSearchTerm]);
 
   return (
     <div className="w-full h-[40px] px-6 flex mb-3 justify-between">
@@ -56,7 +62,7 @@ function NavBar() {
             placeholder="영화 검색..."
             value={searchTerm}
             onChange={handleInputChange}
-            className="w-3/5 p-2 mb-2 rounded-lg text-black"
+            className="w-4/5 p-2 mb-2 rounded-lg text-black"
           />
         </div>
       ) : (
