@@ -41,6 +41,15 @@ function Search() {
     }
   }, [query]);
   console.log(movies);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div>
@@ -48,7 +57,9 @@ function Search() {
       {loading ? (
         <p>로딩 중...</p>
       ) : movies.length > 0 ? (
-        <div className="grid grid-cols-5 gap-4">
+        <div
+          className={`grid ${isMobile ? "grid-cols-2" : "grid-cols-5"} gap-4`}
+        >
           {movies.map((movie) => (
             <MovieCard
               key={movie.id}

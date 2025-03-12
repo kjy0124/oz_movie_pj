@@ -44,6 +44,16 @@ function Main() {
     [filterListData]
   );
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // console.log(filterListData);
   return (
     <>
@@ -72,19 +82,36 @@ function Main() {
           </SwiperSlide>
         ))}
       </Swiper>
+
       <h2 className="text-2xl font-bold mt-8 mb-4">영화 목록</h2>
-      <div className="grid grid-cols-4 gap-4">
-        {/* 성인 인증 불필요한 영화만 나오게 */}
-        {filterListData.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            id={movie.id}
-            poster_path={movie.poster_path}
-            title={movie.title}
-            vote_average={movie.vote_average}
-          />
-        ))}
-      </div>
+
+      {isMobile ? (
+        <div className="grid grid-cols-2 gap-4 ">
+          {/* 성인 인증 불필요한 영화만 나오게 */}
+          {filterListData.map((movie) => (
+            <MovieCard
+              key={movie.id}
+              id={movie.id}
+              poster_path={movie.poster_path}
+              title={movie.title}
+              vote_average={movie.vote_average}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-4 gap-4">
+          {/* 성인 인증 불필요한 영화만 나오게 */}
+          {filterListData.map((movie) => (
+            <MovieCard
+              key={movie.id}
+              id={movie.id}
+              poster_path={movie.poster_path}
+              title={movie.title}
+              vote_average={movie.vote_average}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 }

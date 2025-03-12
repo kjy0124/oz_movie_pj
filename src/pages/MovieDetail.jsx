@@ -42,6 +42,15 @@ function MovieDetail() {
     };
     fetchDetail();
   }, [id]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   if (!movieDetailData)
     return <p className="text-center mt-20 text-gray-500">로딩 중...</p>;
 
@@ -49,9 +58,11 @@ function MovieDetail() {
   return (
     <div className="min-h-screen p-6">
       {movieDetailData && (
-        <div className="flex flex-row max-w-screen-lg mx-auto space-x-8">
+        <div
+          className={`flex ${isMobile ? "flex-col space-y-8" : "flex-row space-x-8"} max-w-screen-lg mx-auto`}
+        >
           {/* 왼쪽 포스터 이미지 */}
-          <div className="flex-shrink-0 w-1/3">
+          <div className={`${isMobile ? "w-full" : "w-1/3"} flex-shrink-0`}>
             <img
               src={`https://image.tmdb.org/t/p/w500${movieDetailData.poster_path}`}
               alt=""
