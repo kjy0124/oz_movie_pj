@@ -102,7 +102,7 @@ function MovieDetail() {
             <div key={actor.id} className="flex flex-col items-center">
               {actor.profile_path ? (
                 <img
-                  src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
+                  src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
                   alt={actor.name}
                   className="w-24 h-24 rounded-full shadow-lg"
                 />

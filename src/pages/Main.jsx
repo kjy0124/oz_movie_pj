@@ -15,7 +15,7 @@ function Main() {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(`${API_URL}?language=ko-KR`, {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
             "Content-Type": "application/json",

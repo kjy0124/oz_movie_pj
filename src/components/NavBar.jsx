@@ -3,25 +3,33 @@ import { useNavigate } from "react-router-dom";
 import useDebounce from "../hooks/useDebounce";
 
 function NavBar() {
+  // 사용자가 입력한 검색어 상태
+  //searchTerm은 input에 입력한 text값의 상태 변경을 가리킴
   const [searchTerm, setSearchTerm] = useState("");
+  console.log("searchTerm:", searchTerm);
+
+  //searchTerm이 마지막으로 변경된 뒤 500ms 지나야 업데이트
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  // 페이지 이동을 위한 navigate 함수
   const nav = useNavigate();
 
   const goHome = () => {
     nav("/home");
   };
 
-  // 검색어 변경 시 상태 업데이트
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
+  // 검색 버튼 클릭 시 바로 검색 실행
   const handleSearch = () => {
-    if (searchTerm.trim()) {
+    if (searchTerm) {
       nav(`/search?query=${searchTerm}`);
     }
   };
 
+  // 디바운스된 검색어가 변경될 때마다 자동으로 검색 실행
   useEffect(() => {
     if (debouncedSearchTerm) {
       nav(`/search?query=${debouncedSearchTerm}`);
