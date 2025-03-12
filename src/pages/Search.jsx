@@ -16,6 +16,7 @@ function Search() {
   // URL에서 검색어(query) 추출
   const query = new URLSearchParams(location.search).get("query");
   console.log("query", query);
+
   useEffect(() => {
     if (query) {
       const fetchMovies = async () => {
@@ -28,8 +29,9 @@ function Search() {
               "Content-Type": "application/json",
             },
           });
+
           const data = await response.json();
-          setMovies(data.results); //검색 결과 movies에 저장
+          setMovies(data.results || []); //검색 결과 movies에 저장
         } catch (error) {
           console.error("Error fetching search results:", error);
         } finally {

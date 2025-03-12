@@ -32,17 +32,13 @@ function NavBar() {
     setSearchTerm(e.target.value);
   };
 
-  // 검색 버튼 클릭 시 바로 검색 실행
-  const handleSearch = () => {
-    if (searchTerm) {
-      nav(`/search?query=${searchTerm}`);
-    }
-  };
-
   // 디바운스된 검색어가 변경될 때마다 자동으로 검색 실행
   useEffect(() => {
+    console.log("debouncedSearchTerm:", debouncedSearchTerm);
     if (debouncedSearchTerm) {
       nav(`/search?query=${debouncedSearchTerm}`);
+    } else {
+      nav("/home");
     }
   }, [debouncedSearchTerm, nav]);
 
@@ -62,12 +58,6 @@ function NavBar() {
             onChange={handleInputChange}
             className="w-3/5 p-2 mb-2 rounded-lg text-black"
           />
-          <button
-            className="w-1/5 p-2 mb-2 bg-blue-500 hover:bg-blue-600 rounded-lg"
-            onClick={handleSearch}
-          >
-            검색
-          </button>
         </div>
       ) : (
         // {/* 검색창과 버튼 - flex로 중앙 정렬 */}
@@ -80,12 +70,6 @@ function NavBar() {
             onChange={handleInputChange}
             className="w-2/3 p-2 rounded-lg text-black"
           />
-          <button
-            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg"
-            onClick={handleSearch}
-          >
-            검색
-          </button>
         </div>
       )}
 
