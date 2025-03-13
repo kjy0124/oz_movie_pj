@@ -23,12 +23,15 @@ function Search() {
         //데이터 요청 시작 전 로딩 상태 true
         setLoading(true);
         try {
-          const response = await fetch(`${SEARCH_API_URL}?query=${query}`, {
-            headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`,
-              "Content-Type": "application/json",
-            },
-          });
+          const response = await fetch(
+            `${SEARCH_API_URL}?query=${query}&language=ko-KR`,
+            {
+              headers: {
+                Authorization: `Bearer ${ACCESS_TOKEN}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           const data = await response.json();
           setMovies(data.results || []); //검색 결과 movies에 저장

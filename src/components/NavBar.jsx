@@ -15,7 +15,7 @@ function NavBar() {
   const nav = useNavigate();
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
@@ -24,6 +24,13 @@ function NavBar() {
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      setIsLoggedIn(true);
+    }
   }, []);
 
   const goHome = () => {
@@ -47,6 +54,24 @@ function NavBar() {
       nav(`/search?query=${debouncedSearchTerm}`);
     }
   }, [debouncedSearchTerm]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userInfo");
+    setIsLoggedIn(false);
+    nav("/login");
+  };
+
+  useEffect(() => {
+    const handleLoginStateChange = () => {
+      const userInfo = localStorage.getItem("userInfo");
+      setIsLoggedIn(!!userInfo); // userInfo가 있으면 true, 없으면 false
+    };
+
+    window.addEventListener("loginStateChange", handleLoginStateChange);
+
+    return () =>
+      window.removeEventListener("loginStateChange", handleLoginStateChange);
+  }, []);
 
   return (
     <div className="w-full h-[40px] px-6 flex mb-3 justify-between">
@@ -81,8 +106,16 @@ function NavBar() {
 
       {/* flexbox, 요소 간 간격 4, 자동 마진으로 우측 정렬 */}
       <div className="flex space-x-4">
-        <button>Login</button>
-        <button>SignUp</button>
+        {isLoggedIn ? (
+          <>
+            <button onClick={handleLogout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => nav("/login")}>Login</button>
+            <button onClick={() => nav("/signup")}>SignUp</button>
+          </>
+        )}
       </div>
     </div>
   );

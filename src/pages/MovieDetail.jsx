@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { localStorageUtils } from "../supabase/utilities/localStorage";
 
 const ACCESS_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
 const API_URL = `${import.meta.env.VITE_TMDB_API_URL}/movie`;
@@ -7,16 +8,21 @@ console.log(API_URL);
 
 function MovieDetail() {
   const params = useParams();
-  console.log("params", params);
-
+  const nav = useNavigate();
+  const { getItemFromLocalStorage } = localStorageUtils();
   const { id } = useParams(); // URL에서 id 받아오기
-  console.log("Rendering MovieDetail with ID:", id);
+  console.log("params", params);
 
   const [movieDetailData, setMovieDetailData] = useState(null);
   const [cast, setCast] = useState([]); //출연자
 
   useEffect(() => {
-    console.log("Fetching movie details for ID:", id);
+    const userInfo = getItemFromLocalStorage("userInfo");
+    if (!userInfo) {
+      alert("로그인을 해주세요.");
+      nav("/login");
+      return;
+    }
     const fetchDetail = async () => {
       try {
         //영화 상세 정보 가져오기

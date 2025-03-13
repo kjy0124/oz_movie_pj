@@ -5,6 +5,8 @@ import MovieDetail from "./pages/MovieDetail";
 import Main from "./pages/Main";
 import Layout from "./components/Layout";
 import Search from "./pages/Search";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path="/home" element={<Main />} />
         <Route path="/home/details/:id" element={<MovieDetail />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Route>
     </Routes>
   );
