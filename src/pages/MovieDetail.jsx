@@ -4,7 +4,6 @@ import { localStorageUtils } from "../supabase/utilities/localStorage";
 
 const ACCESS_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
 const API_URL = `${import.meta.env.VITE_TMDB_API_URL}/movie`;
-console.log(API_URL);
 
 function MovieDetail() {
   const params = useParams();
@@ -67,7 +66,6 @@ function MovieDetail() {
   if (!movieDetailData)
     return <p className="text-center mt-20 text-gray-500">로딩 중...</p>;
 
-  // console.log(movieDetailData);
   return (
     <div className="min-h-screen p-6">
       {movieDetailData && (

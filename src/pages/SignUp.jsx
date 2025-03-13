@@ -46,7 +46,6 @@ function SignUp() {
 
       // 회원가입 성공 시 유저 정보 localStorage에 저장
       const userInfo = await getUserInfo();
-      console.log("userInfo : ", userInfo);
       if (userInfo) {
         setItemToLocalStorage("userInfo", userInfo);
         console.log("userInfo 저장 완료");

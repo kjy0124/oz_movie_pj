@@ -8,15 +8,8 @@ function MovieCard({ id, poster_path, title, vote_average }) {
   const goDetail = () => {
     nav(`/home/details/${id}`);
   };
-  // console.log("MovieCard props:", { poster_path, title, vote_average });
   return (
     <>
-      {/* <Link
-        to={`/home/details/${id}`}
-        onClick={() => {
-          console.log("Navigating to details page");
-        }}
-      > */}
       {/* 영화 랜더링할 때 id / 영화 포스터 클릭 시 상세페이지로 이동*/}
       <div
         className="bg-white rounded-lg shadow-lg overflow-hidden w-full h-70"

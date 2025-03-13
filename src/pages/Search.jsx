@@ -15,7 +15,6 @@ function Search() {
 
   // URL에서 검색어(query) 추출
   const query = new URLSearchParams(location.search).get("query");
-  console.log("query", query);
 
   useEffect(() => {
     if (query) {
@@ -45,7 +44,7 @@ function Search() {
       fetchMovies();
     }
   }, [query]);
-  console.log(movies);
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
 
   useEffect(() => {

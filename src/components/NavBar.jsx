@@ -6,7 +6,6 @@ function NavBar() {
   // 사용자가 입력한 검색어 상태
   //searchTerm은 input에 입력한 text값의 상태 변경을 가리킴
   const [searchTerm, setSearchTerm] = useState("");
-  // console.log("searchTerm:", searchTerm);
 
   //searchTerm이 마지막으로 변경된 뒤 500ms 지나야 업데이트
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -17,6 +16,7 @@ function NavBar() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  console.log(searchParams);
 
   useEffect(() => {
     const handleResize = () => {
