@@ -76,7 +76,7 @@ function NavBar() {
   return (
     <div className="w-full h-[40px] px-6 flex mb-3 justify-between">
       <h2 onClick={goHome} className="font-bold cursor-pointer text-2xl">
-        Oz_KJY
+        MOVIE_KJY
       </h2>
 
       {/* 모바일 */}

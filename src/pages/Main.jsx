@@ -1,5 +1,5 @@
 import MovieCard from "../components/MovieCard";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -11,25 +11,46 @@ const API_URL = `${import.meta.env.VITE_TMDB_API_URL}/movie/popular`;
 
 function Main() {
   const [movieList, setMovieList] = useState([]);
+  const [page, setPage] = useState(1);
+
+  const fetchMovie = useCallback(async (page) => {
+    try {
+      const response = await fetch(`${API_URL}?language=ko-KR&page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      setMovieList((prev) => {
+        const combined = [...prev, ...data.results];
+        const uniqueMovies = Array.from(
+          new Map(combined.map((movie) => [movie.id, movie])).values()
+        );
+        return uniqueMovies;
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchMovie = async () => {
-      try {
-        const response = await fetch(`${API_URL}?language=ko-KR`, {
-          headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await response.json();
+    fetchMovie(page);
+  }, [page, fetchMovie]);
 
-        setMovieList(data.results);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchMovie();
+  const handleScroll = useCallback(() => {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 100
+    ) {
+      setPage((prev) => prev + 1);
+    }
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   //데이터가 변경되면 다시 계산하고 데이터를 계산할 떄 못 가져오면 빈 배열로 반환
   //데이터가 변경이 된다면 다시 무비리스트가 실행이 되어서 최신상태로 가져옴
@@ -54,7 +75,6 @@ function Main() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // console.log(filterListData);
   return (
     <>
       {/* 평점 높은 순 슬라이드 */}
